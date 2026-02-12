@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Barcode Studio</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>Barcode Studio</h1>
+    <p class="sub">Generate scannable 1D/2D barcodes (QR, Data Matrix, PDF417, Code128, EAN-13, etc.) and scan using your camera.</p>
+    <nav class="tabs">
+      <a class="tab active" href="#generate" data-tab="generate">Generate</a>
+      <a class="tab" href="#scan" data-tab="scan">Scan</a>
+      <a class="tab" href="#nfc" data-tab="nfc">NFC (optional)</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- GENERATE -->
+    <section id="generate" class="panel active">
+      <div class="grid">
+        <div class="card">
+          <h2>Generate</h2>
+
+          <label>
+            Barcode type
+            <select id="bcid">
+              <optgroup label="2D">
+                <option value="qrcode">QR Code (qrcode)</option>
+                <option value="datamatrix">Data Matrix (datamatrix)</option>
+                <option value="pdf417">PDF417 (pdf417)</option>
+                <option value="azteccode">Aztec (azteccode)</option>
+              </optgroup>
+              <optgroup label="1D">
+                <option value="code128" selected>Code 128 (code128)</option>
+                <option value="code39">Code 39 (code39)</option>
+                <option value="ean13">EAN-13 (ean13)</option>
+                <option value="upca">UPC-A (upca)</option>
+                <option value="itf">ITF (itf)</option>
+              </optgroup>
+            </select>
+          </label>
+
+          <label>
+            Text / data to encode
+            <textarea id="text" rows="4" placeholder="Example: INV-00012345"></textarea>
+          </label>
+
+          <div class="row">
+            <label class="grow">
+              Scale
+              <input id="scale" type="number" min="1" max="10" step="1" value="3" />
+            </label>
+            <label class="grow">
+              Height (mm) <span class="hint">(1D only)</span>
+              <input id="height" type="number" min="5" max="30" step="1" value="10" />
+            </label>
+          </div>
+
+          <div class="row">
+            <label class="checkbox">
+              <input id="includetext" type="checkbox" checked />
+              Show human-readable text <span class="hint">(1D)</span>
+            </label>
+            <label class="checkbox">
+              <input id="showborder" type="checkbox" />
+              Add quiet-zone border <span class="hint">(2D)</span>
+            </label>
+          </div>
+
+          <div class="row">
+            <button id="btn-generate" class="primary">Generate</button>
+            <button id="btn-svg" class="secondary">Download SVG</button>
+            <button id="btn-png" class="secondary">Download PNG</button>
+          </div>
+
+          <p id="gen-status" class="status"></p>
+
+          <details class="small">
+            <summary>Tips to keep codes scannable</summary>
+            <ul>
+              <li>For 1D codes, increase scale if scans fail.</li>
+              <li>For QR/Data Matrix/PDF417, keep a clear quiet zone (border) around the code.</li>
+              <li>Test with multiple phones/scanners before printing in bulk.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="card">
+          <h2>Preview</h2>
+          <canvas id="canvas"></canvas>
+          <div id="svg-preview" class="svg-preview" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAN -->
+    <section id="scan" class="panel">
+      <div class="grid">
+        <div class="card">
+          <h2>Scan with camera</h2>
+          <p class="small">Works best in Chrome/Edge. Allow camera permission when prompted.</p>
+
+          <label>
+            Camera
+            <select id="camera"></select>
+          </label>
+
+          <div class="row">
+            <button id="btn-start" class="primary">Start scanning</button>
+            <button id="btn-stop" class="secondary" disabled>Stop</button>
+          </div>
+
+          <p class="status" id="scan-status"></p>
+
+          <label>
+            Result
+            <textarea id="scan-result" rows="5" readonly placeholder="Scanned text will appear here..."></textarea>
+          </label>
+          <div class="row">
+            <button id="btn-copy" class="secondary">Copy result</button>
+            <button id="btn-clear" class="secondary">Clear</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Camera preview</h2>
+          <video id="video" muted playsinline></video>
+        </div>
+      </div>
+    </section>
+
+    <!-- NFC -->
+    <section id="nfc" class="panel">
+      <div class="card">
+        <h2>NFC (optional)</h2>
+        <p class="small">
+          Uses Web NFC (mainly Chrome on Android) and requires HTTPS (GitHub Pages works).
+        </p>
+
+        <label>
+          NDEF text to write
+          <input id="ndef-text" type="text" placeholder="Example: https://example.com/item/123" />
+        </label>
+
+        <div class="row">
+          <button id="btn-nfc-write" class="primary">Write to NFC tag</button>
+          <button id="btn-nfc-read" class="secondary">Read NFC tag</button>
+        </div>
+
+        <p id="nfc-status" class="status"></p>
+        <label>
+          NFC read output
+          <textarea id="nfc-result" rows="5" readonly placeholder="Read results appear here..."></textarea>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <!-- ZXing (UMD) for scanning -->
+  <script src="https://unpkg.com/@zxing/browser@0.1.5/umd/zxing-browser.min.js"></script>
+
+  <!-- App (ESM) -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
