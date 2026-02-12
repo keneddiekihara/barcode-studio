@@ -48,6 +48,14 @@
             <textarea id="text" rows="4" placeholder="Example: INV-00012345"></textarea>
           </label>
 
+          <div class="row wrap">
+            <button id="btn-sample-vcard" class="secondary" type="button">Load sample: USA contact (vCard)</button>
+            <button id="btn-sample-json" class="secondary" type="button">Load sample: USA profile (JSON)</button>
+            <button id="btn-sample-url" class="secondary" type="button">Load sample: URL</button>
+          </div>
+
+          <p class="small">Samples use <strong>fake</strong> data for testing. Avoid uploading real personal/ID data.</p>
+
           <div class="row">
             <label class="grow">
               Scale
@@ -77,6 +85,67 @@
           </div>
 
           <p id="gen-status" class="status"></p>
+          <hr class="sep" />
+
+          <h3 class="h3" id="secure-section">Secure Signed QR (recommended)</h3>
+          <p class="small">
+            This creates a QR code containing a <strong>signed token</strong> (so copied/edited codes fail verification).
+            Keep the barcode payload minimal (e.g., an internal ID), and store sensitive info in your database.
+          </p>
+
+          <div class="grid2">
+            <label>
+              Issuer (your organization)
+              <input id="issuer" type="text" value="MyOrg" />
+            </label>
+
+            <label>
+              Card type
+              <select id="cardtype">
+                <option value="member">Member</option>
+                <option value="staff">Staff</option>
+                <option value="asset">Asset</option>
+                <option value="ticket">Ticket</option>
+              </select>
+            </label>
+
+            <label>
+              Unique ID (required)
+              <input id="uid" type="text" placeholder="Example: MEM-000123" />
+            </label>
+
+            <label>
+              Display name (optional)
+              <input id="displayname" type="text" placeholder="Example: Jane Doe" />
+            </label>
+
+            <label>
+              Expires on (optional)
+              <input id="expires" type="date" />
+            </label>
+          </div>
+
+          <div class="row wrap">
+            <button id="btn-keygen" class="secondary" type="button">Generate key pair (ES256)</button>
+            <button id="btn-export-public" class="secondary" type="button">Export public key</button>
+            <button id="btn-export-keys" class="secondary" type="button">Export key pair</button>
+            <button id="btn-import-keys" class="secondary" type="button">Import key pair</button>
+          </div>
+
+          <div class="row">
+            <button id="btn-signed-qr" class="primary" type="button">Generate Signed QR</button>
+          </div>
+
+          <p id="secure-status" class="status"></p>
+          <label>
+            Signed token (copy/paste)
+            <textarea id="token" rows="4" readonly placeholder="Signed token will appear here..."></textarea>
+          </label>
+          <p class="small">
+            Verifiers only need the <strong>public key</strong> to validate tokens. Keep the <strong>private key</strong> secret.
+          </p>
+
+
 
           <details class="small">
             <summary>Tips to keep codes scannable</summary>
@@ -108,6 +177,14 @@
             <select id="camera"></select>
           </label>
 
+          <div class="row wrap">
+            <button id="btn-sample-vcard" class="secondary" type="button">Load sample: USA contact (vCard)</button>
+            <button id="btn-sample-json" class="secondary" type="button">Load sample: USA profile (JSON)</button>
+            <button id="btn-sample-url" class="secondary" type="button">Load sample: URL</button>
+          </div>
+
+          <p class="small">Samples use <strong>fake</strong> data for testing. Avoid uploading real personal/ID data.</p>
+
           <div class="row">
             <button id="btn-start" class="primary">Start scanning</button>
             <button id="btn-stop" class="secondary" disabled>Stop</button>
@@ -118,6 +195,33 @@
           <label>
             Result
             <textarea id="scan-result" rows="5" readonly placeholder="Scanned text will appear here..."></textarea>
+          </label>
+
+          <hr class="sep" />
+          <h3 class="h3">Verify signed token</h3>
+          <p class="small">If the scanned text is a signed token, the app will verify it and show the decoded payload.</p>
+
+          <div class="row wrap">
+            <button id="btn-import-public" class="secondary" type="button">Import public key</button>
+            <button id="btn-clear-verify" class="secondary" type="button">Clear verification</button>
+          </div>
+
+          <p id="verify-status" class="status"></p>
+
+          <label>
+            Decoded payload (JSON)
+            <textarea id="verify-payload" rows="7" readonly placeholder="Verified payload will appear here..."></textarea>
+          </label>
+
+          <label>
+            Public key currently loaded
+            <textarea id="pubkey-view" rows="3" readonly placeholder="(none)"></textarea>
+          </label>
+
+          <label>
+            (Optional) Paste token here to verify
+            <textarea id="token-input" rows="3" placeholder="Paste token and it will verify automatically..."></textarea>
+
           </label>
           <div class="row">
             <button id="btn-copy" class="secondary">Copy result</button>

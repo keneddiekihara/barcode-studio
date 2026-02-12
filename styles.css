@@ -27,3 +27,12 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 #canvas { width: 100%; border: 1px dashed #ddd; border-radius: 12px; padding: 10px; background: #fcfcfc; }
 video { width: 100%; background: #000; border-radius: 12px; }
 .svg-preview { border: 1px dashed #ddd; border-radius: 12px; padding: 10px; overflow: auto; background: #fcfcfc; }
+
+.row.wrap { flex-wrap: wrap; }
+
+.sep { border: 0; border-top: 1px solid #eee; margin: 16px 0; }
+.h3 { margin: 10px 0 6px; font-size: 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+.status.ok { color: #0b6b2c; }
+.status.bad { color: #9b1c1c; }
